@@ -33,7 +33,7 @@ public class UsuarioResource {
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<Usuario> buscarUsuarioID(@PathVariable Integer id){
 		
-		Usuario usuario = usuarioService.buscarUsuarioID(id);
+		Usuario usuario = usuarioService.buscarUsuarioID(id); 
 		
 		return ResponseEntity.ok().body(usuario);
 	}
