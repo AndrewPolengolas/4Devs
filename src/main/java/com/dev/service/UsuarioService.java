@@ -1,6 +1,7 @@
 package com.dev.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,13 +21,10 @@ public class UsuarioService {
 	}
 	
 	public Usuario buscarUsuarioID(Integer id) {
-		try {
-			Usuario usuario = usuarioRepository.getById(id);
-			return usuario;
-		} catch (Exception e) {
-			
-		}
-		return null;
+		
+		Optional<Usuario> usuario = usuarioRepository.findById(id);
+		
+		return usuario.get();	
 	}
 	
 	public Usuario inserir(Usuario usuario) {
