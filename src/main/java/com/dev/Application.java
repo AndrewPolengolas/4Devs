@@ -25,10 +25,14 @@ public class Application implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		
-		Usuario usuario = new Usuario(null, "teste", 123456789L, "teste", new Date(), TipoUsuario.ADMINISTRADOR, "teste", "teste");
-		Usuario usuario2 = new Usuario(null, "teste", 123456789L, "teste", new Date(), TipoUsuario.ADMINISTRADOR, "teste", "teste");
-		
-		usuarioRepository.saveAll(Arrays.asList(usuario, usuario2));
+		/*
+		 * Usuario usuario = new Usuario(null, "teste", 123456789L, "teste", new Date(),
+		 * TipoUsuario.ADMINISTRADOR, "teste", "teste"); Usuario usuario2 = new
+		 * Usuario(null, "teste", 123456789L, "teste", new Date(),
+		 * TipoUsuario.ADMINISTRADOR, "teste", "teste");
+		 * 
+		 * usuarioRepository.saveAll(Arrays.asList(usuario, usuario2));
+		 */
 	}
 
 }
