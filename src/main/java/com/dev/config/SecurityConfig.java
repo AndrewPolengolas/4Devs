@@ -13,23 +13,19 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private static final String[] CHAMADAS_PUBLICAS = {
-			"/four-dev.herokuapp.com/**",
-			"/users/**"
-	};
-	
-	@Override
-	protected void configure(HttpSecurity http) throws Exception{
-		http.authorizeRequests()
-			.antMatchers(CHAMADAS_PUBLICAS).permitAll()
-			.anyRequest().authenticated();
-	}
-	
-	@Bean
-	CorsConfigurationSource corsConfigurationSource() {
-		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
-		return (CorsConfigurationSource) source;
-	}
+	/*
+	 * private static final String[] CHAMADAS_PUBLICAS = {
+	 * "/four-dev.herokuapp.com/**", "/users/**" };
+	 * 
+	 * @Override protected void configure(HttpSecurity http) throws Exception{
+	 * http.authorizeRequests() .antMatchers(CHAMADAS_PUBLICAS).permitAll()
+	 * .anyRequest().authenticated(); }
+	 * 
+	 * @Bean CorsConfigurationSource corsConfigurationSource() { final
+	 * UrlBasedCorsConfigurationSource source = new
+	 * UrlBasedCorsConfigurationSource(); source.registerCorsConfiguration("/**",
+	 * new CorsConfiguration().applyPermitDefaultValues()); return
+	 * (CorsConfigurationSource) source; }
+	 */
 	
 }
