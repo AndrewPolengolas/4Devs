@@ -6,7 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dev.entidades.Login;
 import com.dev.entidades.Usuario;
+import com.dev.repositorios.LoginRepository;
 import com.dev.repositorios.UsuarioRepository;
 
 @Service
@@ -14,6 +16,9 @@ public class UsuarioService {
 	
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	private LoginService loginService;
 	
 	public List<Usuario> buscarTodosUsuarios() {
 		
@@ -28,7 +33,12 @@ public class UsuarioService {
 	}
 	
 	public Usuario inserir(Usuario usuario) {
-		return usuarioRepository.save(usuario);
+		
+		usuarioRepository.save(usuario);
+		
+		loginService.inserir(usuario);
+		
+		return usuario;
 	}
 	
 	public void delete(Integer id) {
