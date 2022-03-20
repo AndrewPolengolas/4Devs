@@ -8,46 +8,59 @@ import org.springframework.stereotype.Service;
 
 import com.dev.entidades.Login;
 import com.dev.entidades.Usuario;
-import com.dev.repositorios.LoginRepository;
 import com.dev.repositorios.UsuarioRepository;
 
 @Service
 public class UsuarioService {
-	
+
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-	
+
 	@Autowired
 	private LoginService loginService;
-	
+
 	public List<Usuario> buscarTodosUsuarios() {
-		
+
 		return usuarioRepository.findAll();
 	}
-	
+
 	public Usuario buscarUsuarioID(Integer id) {
-		
+
 		Optional<Usuario> usuario = usuarioRepository.findById(id);
-		
-		return usuario.get();	
+
+		return usuario.get();
 	}
-	
+
 	public Usuario inserir(Usuario usuario) {
+
+		Login login = loginService.inserir(usuario);
+		
+		usuario.setLogin(login);
 		
 		usuarioRepository.save(usuario);
-		
-		loginService.inserir(usuario);
-		
+
 		return usuario;
 	}
-	
+
 	public void delete(Integer id) {
 		usuarioRepository.deleteById(id);
 	}
-	
+
 	public Usuario update(Integer id, Usuario usuario) {
-		Usuario entity = usuarioRepository.getById(id);
+		Usuario entity = buscarUsuarioID(id);
+
+		Login login = new Login(entity.getLogin().getId(), usuario.getEmail(), usuario.getSenha());
+		 
+		Login loginBusca = entity.getLogin();
+		 
+		Login loginEntity = loginService.buscarLogin(loginBusca);
+		 
+		loginService.update(loginEntity, login);
+
+		entity.setLogin(login);
+		
 		updateData(entity, usuario);
+		 
 		return usuarioRepository.save(entity);
 	}
 
