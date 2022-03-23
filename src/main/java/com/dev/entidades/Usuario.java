@@ -38,6 +38,7 @@ public class Usuario implements Serializable{
 	private Integer tipoUsuario;
 	private String senha;
 	private String endereco;
+	private Boolean status;
 	
 	@OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "login_id", referencedColumnName = "id")
@@ -46,7 +47,7 @@ public class Usuario implements Serializable{
 	public Usuario() {}
 	
 	public Usuario(Integer id, String cpf, String nome, Long telefone, String email, Date dataNascimento, TipoUsuario tipoUsuario,
-			String senha, String endereco, Login login) {
+			String senha, String endereco, Login login, Boolean status) {
 		super();
 		this.id = id;
 		this.cpf = cpf;
@@ -58,6 +59,7 @@ public class Usuario implements Serializable{
 		this.senha = senha;
 		this.endereco = endereco;
 		this.login = login;
+		this.status = status;
 	}
 	
 	public Integer getId() {
@@ -119,6 +121,12 @@ public class Usuario implements Serializable{
 	}
 	public void setLogin(Login login) {
 		this.login = login;
+	}
+	public Boolean getStatus() {
+		return status;
+	}
+	public void setStatus(Boolean status) {
+		this.status = status;
 	}
 	@Override
 	public int hashCode() {

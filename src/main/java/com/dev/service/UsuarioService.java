@@ -30,6 +30,13 @@ public class UsuarioService {
 
 		return usuario.get();
 	}
+	
+	public List<Usuario> findByNome(String nome){
+		
+		List<Usuario> usuarios = usuarioRepository.findByNome(nome);
+		
+		return usuarios;
+	}
 
 	public Usuario inserir(Usuario usuario) {
 

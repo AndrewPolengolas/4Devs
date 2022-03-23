@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.dev.entidades.Usuario;
+import com.dev.entidades.Produto;
 
 @Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
-	
-	List<Usuario> findByNome(String nome);
+public interface ProdutoRepository extends JpaRepository<Produto, Integer>{
+
+	List<Produto> findByNome(String nome);
 	
 }
