@@ -21,7 +21,7 @@ public class LoginResource {
 	
 	
 	@GetMapping
-	@CrossOrigin(origins = "https://akira42.github.io/ProjetoIntegrador4Semestre/adm-login-page.html")
+	@CrossOrigin(origins = "https://akira42.github.io/")
 	public ResponseEntity<Login> buscarLogin(@RequestBody Login obj){
 		
 		Login login = loginService.buscarLogin(obj);
