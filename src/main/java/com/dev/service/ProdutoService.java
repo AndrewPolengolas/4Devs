@@ -32,4 +32,9 @@ public class ProdutoService {
 
 		return produtos;
 	}
+	
+	public Produto insert(Produto prod) {
+		produtoRepository.save(prod);
+		return prod;
+	}
 }
