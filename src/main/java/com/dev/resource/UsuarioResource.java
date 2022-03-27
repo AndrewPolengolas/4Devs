@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -34,10 +36,18 @@ public class UsuarioResource {
 		return ResponseEntity.ok().body(usuarios);
 	}
 	
-	@RequestMapping(value="/{id}", method=RequestMethod.GET) 
-	public ResponseEntity<Usuario> buscarUsuarioID(@PathVariable Integer id){
+	@GetMapping("/id") 
+	public ResponseEntity<Usuario> buscarUsuarioID(@RequestParam("id") Integer id){
 		
 		Usuario usuario = usuarioService.buscarUsuarioID(id); 
+		
+		return ResponseEntity.ok().body(usuario);
+	}
+	
+	@GetMapping("/nome")
+	public ResponseEntity<List<Usuario>> buscarUsuarioNome(@RequestParam("nome") String nome){
+		
+		List<Usuario> usuario = usuarioService.findByNome(nome);
 		
 		return ResponseEntity.ok().body(usuario);
 	}

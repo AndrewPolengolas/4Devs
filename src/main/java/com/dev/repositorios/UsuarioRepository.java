@@ -10,6 +10,10 @@ import com.dev.entidades.Usuario;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 	
-	List<Usuario> findByNome(String nome);
+	List<Usuario> findByNomeContains(String nome);
+	
+	List<Usuario> findByCpf(String cpf);
+	
+	List<Usuario> findByEmail(String email);
 	
 }

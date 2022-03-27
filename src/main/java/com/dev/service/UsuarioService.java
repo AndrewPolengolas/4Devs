@@ -33,12 +33,20 @@ public class UsuarioService {
 	
 	public List<Usuario> findByNome(String nome){
 		
-		List<Usuario> usuarios = usuarioRepository.findByNome(nome);
+		List<Usuario> usuarios = usuarioRepository.findByNomeContains(nome);
 		
 		return usuarios;
 	}
 
 	public Usuario inserir(Usuario usuario) {
+		
+		List<Usuario> buscaCpf = usuarioRepository.findByCpf(usuario.getCpf());
+		
+		List<Usuario> buscaEmail = usuarioRepository.findByEmail(usuario.getEmail());
+		
+		if(!(buscaCpf.isEmpty()) || !(buscaEmail.isEmpty()) || usuario.getId() != null) {
+			return null;
+		}
 
 		Login login = loginService.inserir(usuario);
 		
@@ -56,7 +64,7 @@ public class UsuarioService {
 	public Usuario update(Integer id, Usuario usuario) {
 		Usuario entity = buscarUsuarioID(id);
 
-		Login login = new Login(entity.getLogin().getId(), usuario.getEmail(), usuario.getSenha());
+		Login login = new Login(entity.getLogin().getId(), entity.getEmail(), usuario.getSenha());
 		 
 		Login loginBusca = entity.getLogin();
 		 
@@ -73,7 +81,6 @@ public class UsuarioService {
 
 	private void updateData(Usuario entity, Usuario usuario) {
 		entity.setNome(usuario.getNome());
-		entity.setEmail(usuario.getEmail());
 		entity.setEndereco(usuario.getEndereco());
 		entity.setTelefone(usuario.getTelefone());
 	}
