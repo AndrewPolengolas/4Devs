@@ -20,16 +20,18 @@ public class Produto implements Serializable{
 	private String descricao;
 	private Double preco;
 	private Integer quantidade;
+	private Boolean status;
 	
 	public Produto() {}
 	
-	public Produto(Integer id, String nome, String descricao, Double preco, Integer quantidade) {
+	public Produto(Integer id, String nome, String descricao, Double preco, Integer quantidade, Boolean status) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.descricao = descricao;
 		this.preco = preco;
 		this.quantidade = quantidade;
+		this.status = status;
 	}
 
 	public Integer getId() {
@@ -70,6 +72,14 @@ public class Produto implements Serializable{
 
 	public void setQuantidade(Integer quantidade) {
 		this.quantidade = quantidade;
+	}
+	
+	public Boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(Boolean status) {
+		this.status = status;
 	}
 
 	@Override

@@ -37,4 +37,20 @@ public class ProdutoService {
 		produtoRepository.save(prod);
 		return prod;
 	}
+	
+	public Produto update(Integer id, Produto prod) {
+		Produto entity = buscarProdutoID(id);
+		
+		updateData(entity, prod);
+		 
+		return produtoRepository.save(entity);
+	}
+	
+	private void updateData(Produto entity, Produto prod) {
+		entity.setDescricao(prod.getDescricao());
+		entity.setNome(prod.getNome());
+		entity.setPreco(prod.getPreco());
+		entity.setQuantidade(prod.getQuantidade());
+		entity.setStatus(prod.getStatus());
+	}
 }

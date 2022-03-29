@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dev.entidades.Login;
 import com.dev.service.LoginService;
 
+@CrossOrigin(origins = "https://akira42.github.io/ProjetoIntegrador4Semestre/", maxAge = 3600)
 @RestController
 @RequestMapping(value="/login")
-@CrossOrigin
 public class LoginResource {
 
 	@Autowired
@@ -21,7 +21,6 @@ public class LoginResource {
 	
 	
 	@PostMapping
-	@CrossOrigin(origins = "https://akira42.github.io/")
 	public ResponseEntity<Login> buscarLogin(@RequestBody Login obj){
 		
 		Login login = loginService.buscarLogin(obj);

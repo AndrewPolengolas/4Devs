@@ -13,18 +13,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.dev.entidades.Usuario;
 import com.dev.service.UsuarioService;
 
+@CrossOrigin(origins = "https://akira42.github.io/ProjetoIntegrador4Semestre/", maxAge = 3600)
 @RestController
 @RequestMapping(value="/users")
-@CrossOrigin
 public class UsuarioResource {
 
 	@Autowired
@@ -68,8 +66,8 @@ public class UsuarioResource {
 	
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Usuario> update(@PathVariable Integer id, @RequestBody Usuario usuario){
-		usuario = usuarioService.update(id, usuario);
-		return ResponseEntity.ok().body(usuario);
+		Usuario user = usuarioService.update(id, usuario);
+		return ResponseEntity.ok().body(user);
 	}
 	
 }
