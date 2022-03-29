@@ -20,7 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.dev.entidades.Usuario;
 import com.dev.service.UsuarioService;
 
-@CrossOrigin(origins = "https://akira42.github.io/ProjetoIntegrador4Semestre/", maxAge = 3600)
+@CrossOrigin
 @RestController
 @RequestMapping(value="/users")
 public class UsuarioResource {

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dev.entidades.Login;
 import com.dev.service.LoginService;
 
-@CrossOrigin(origins = "https://akira42.github.io/ProjetoIntegrador4Semestre/", maxAge = 3600)
+@CrossOrigin
 @RestController
 @RequestMapping(value="/login")
 public class LoginResource {

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dev.entidades.Produto;
 import com.dev.service.ProdutoService;
 
-@CrossOrigin(origins = "https://akira42.github.io/ProjetoIntegrador4Semestre/", maxAge = 3600)
+@CrossOrigin
 @RestController
 @RequestMapping(value="/produtos")
 public class ProdutoResource {
