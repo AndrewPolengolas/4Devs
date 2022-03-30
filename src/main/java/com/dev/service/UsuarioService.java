@@ -89,4 +89,12 @@ public class UsuarioService {
 		entity.setEndereco(usuario.getEndereco());
 		entity.setTelefone(usuario.getTelefone());
 	}
+	
+	public Usuario updateStatus(Integer id, Usuario user) {
+		Usuario entity = buscarUsuarioID(id);
+		
+		entity.setStatus(user.getStatus());
+		
+		return usuarioRepository.save(entity);
+	}
 }
