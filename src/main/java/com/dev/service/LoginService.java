@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.dev.entidades.Login;
 import com.dev.entidades.Usuario;
 import com.dev.repositorios.LoginRepository;
+import com.dev.utils.Criptografia;
 
 @Service
 public class LoginService {
@@ -31,11 +32,13 @@ public class LoginService {
 		
 		 for (Login itens : log) { 
 			 if(itens.getLogin().equals(login.getLogin())) {
-				 if(itens.getSenha().equals(login.getSenha())) {
-					 return itens; 
-					 } 
-				 } 
-			 }
+				 Boolean verificaSenha = Criptografia.verificarSenha(login.getSenha(), itens.getSenha());
+				 
+				 Login retorno = verificaSenha ? itens : null;
+				 
+				 return retorno;
+			 } 
+		 }
 		
 		return null;
 	}

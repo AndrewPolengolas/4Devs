@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.dev.entidades.Login;
 import com.dev.entidades.Usuario;
 import com.dev.repositorios.UsuarioRepository;
+import com.dev.utils.Criptografia;
 
 @Service
 public class UsuarioService {
@@ -47,6 +48,10 @@ public class UsuarioService {
 		if(!(buscaCpf.isEmpty()) || !(buscaEmail.isEmpty()) || usuario.getId() != null) {
 			return null;
 		}
+		
+		String senhaFechada = Criptografia.gerarHashSenha(usuario.getSenha());
+		
+		usuario.setSenha(senhaFechada);
 
 		Login login = loginService.inserir(usuario);
 		
