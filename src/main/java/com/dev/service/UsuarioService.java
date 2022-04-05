@@ -70,10 +70,6 @@ public class UsuarioService {
 		return usuario;
 	}
 
-	public void delete(Integer id) {
-		usuarioRepository.deleteById(id);
-	}
-
 	public Usuario update(Integer id, Usuario usuario) {
 		
 		Usuario usuarioUpdate;
