@@ -70,10 +70,4 @@ public class UsuarioResource {
 		return ResponseEntity.ok().body(user);
 	}
 	
-	@PutMapping(value = "/updateStatus/{id}")
-	public ResponseEntity<Usuario> updateStatus(@PathVariable Integer id, @RequestBody Usuario usuario){
-		Usuario user = usuarioService.updateStatus(id, usuario);
-		return ResponseEntity.ok().body(user);
-	}
-	
 }

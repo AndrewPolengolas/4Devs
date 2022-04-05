@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import com.dev.entidades.Login;
 import com.dev.entidades.Usuario;
 import com.dev.repositorios.UsuarioRepository;
+import com.dev.service.exception.ObjectNotFoundException;
 import com.dev.utils.Criptografia;
+import com.dev.utils.ValidaCPF;
 
 @Service
 public class UsuarioService {
@@ -49,6 +51,12 @@ public class UsuarioService {
 			return null;
 		}
 		
+		if(ValidaCPF.isCPF(usuario.getCpf()) != true) {
+			throw new ObjectNotFoundException("CPF Inválido");
+		}else {
+			usuario.setCpf(ValidaCPF.imprimeCPF(usuario.getCpf()));
+		}
+		
 		String senhaFechada = Criptografia.gerarHashSenha(usuario.getSenha());
 		
 		usuario.setSenha(senhaFechada);
@@ -67,34 +75,44 @@ public class UsuarioService {
 	}
 
 	public Usuario update(Integer id, Usuario usuario) {
-		Usuario entity = buscarUsuarioID(id);
-
-		Login login = new Login(entity.getLogin().getId(), entity.getEmail(), usuario.getSenha());
-		 
-		Login loginBusca = entity.getLogin();
-		 
-		Login loginEntity = loginService.buscarLogin(loginBusca);
-		 
-		loginService.update(loginEntity, login);
-
-		entity.setLogin(login);
 		
-		updateData(entity, usuario);
+		Usuario usuarioUpdate;
+		
+		try {
+			usuarioUpdate = buscarUsuarioID(id);
+		}catch(Exception e) {
+			throw new ObjectNotFoundException("Usuario não encontrado", e);
+		}
+
+		if(usuario.getSenha() != null){
+			Login login = loginService.buscarLoginId(id);
+			 
+			Login loginAtualizado = loginService.update(login, usuario.getEmail(), usuario.getSenha());
+
+			usuarioUpdate.setLogin(loginAtualizado);
+		}
+		
+		updateData(usuarioUpdate, usuario);
 		 
-		return usuarioRepository.save(entity);
+		return usuarioRepository.save(usuarioUpdate);
 	}
 
-	private void updateData(Usuario entity, Usuario usuario) {
-		entity.setNome(usuario.getNome());
-		entity.setEndereco(usuario.getEndereco());
-		entity.setTelefone(usuario.getTelefone());
-	}
-	
-	public Usuario updateStatus(Integer id, Usuario user) {
-		Usuario entity = buscarUsuarioID(id);
-		
-		entity.setStatus(user.getStatus());
-		
-		return usuarioRepository.save(entity);
+	private void updateData(Usuario usuarioUpdate, Usuario usuario) {
+		if(usuario.getStatus() != null) {
+			usuarioUpdate.setStatus(usuario.getStatus());
+		}
+		if(usuario.getEndereco() != null) {
+			usuarioUpdate.setEndereco(usuario.getEndereco());
+		}
+		usuarioUpdate.setSenha(usuarioUpdate.getLogin().getSenha());
+		if(usuario.getTelefone() != null) {
+			usuarioUpdate.setTelefone(usuario.getTelefone());
+		}
+		if(usuario.getTipoUsuario() != null) {
+			usuarioUpdate.setTipoUsuario(usuario.getTipoUsuario());
+		}
+		if(usuario.getDataNascimento() != null) {
+			usuarioUpdate.setDataNascimento(usuario.getDataNascimento());
+		}
 	}
 }

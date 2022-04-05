@@ -1,6 +1,7 @@
 package com.dev.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,11 +44,23 @@ public class LoginService {
 		return null;
 	}
 	
-	public void update(Login loginEntity, Login login) {
-		loginEntity.setLogin(login.getLogin());
-		loginEntity.setSenha(login.getSenha());
+	public Login buscarLoginId(Integer id) {
+		Optional<Login> login = loginRepository.findById(id);
 		
-		loginRepository.save(loginEntity);
+		return login.get();	
+	}
+	
+	public Login update(Login login, String senha, String email) {
+		
+		login.setLogin(email);
+		
+		String senhaFechada = Criptografia.gerarHashSenha(senha);
+		
+		login.setSenha(senhaFechada);
+		
+		loginRepository.save(login);
+		
+		return login;
 	}
 	
 	
