@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import com.dev.entidades.Login;
 import com.dev.entidades.Usuario;
 import com.dev.repositorios.UsuarioRepository;
-import com.dev.service.exception.ObjectNotFoundException;
+import com.dev.service.exceptions.userException.CampoExistenteException;
+import com.dev.service.exceptions.userException.InvalidCpfException;
+import com.dev.service.exceptions.userException.UsuarioNotFoundException;
 import com.dev.utils.Criptografia;
 import com.dev.utils.ValidaCPF;
 
@@ -22,16 +24,16 @@ public class UsuarioService {
 	@Autowired
 	private LoginService loginService;
 
-	public List<Usuario> buscarTodosUsuarios() {
+	public List<Usuario> findAll() {
 
 		return usuarioRepository.findAll();
 	}
 
-	public Usuario buscarUsuarioID(Integer id) {
+	public Usuario findById(Integer id) {
 
 		Optional<Usuario> usuario = usuarioRepository.findById(id);
 
-		return usuario.get();
+		return usuario.orElseThrow(() -> new UsuarioNotFoundException());
 	}
 	
 	public List<Usuario> findByNome(String nome){
@@ -48,14 +50,15 @@ public class UsuarioService {
 		List<Usuario> buscaEmail = usuarioRepository.findByEmail(usuario.getEmail());
 		
 		if(!(buscaCpf.isEmpty()) || !(buscaEmail.isEmpty()) || usuario.getId() != null) {
-			return null;
+			throw new CampoExistenteException();
 		}
 		
 		if(ValidaCPF.isCPF(usuario.getCpf()) != true) {
-			throw new ObjectNotFoundException("CPF Inválido");
+			throw new InvalidCpfException();
 		}else {
-			usuario.setCpf(ValidaCPF.imprimeCPF(usuario.getCpf()));
+			usuario.setCpf(ValidaCPF.imprimeCPF(usuario.getCpf())); 
 		}
+		 
 		
 		String senhaFechada = Criptografia.gerarHashSenha(usuario.getSenha());
 		
@@ -74,11 +77,8 @@ public class UsuarioService {
 		
 		Usuario usuarioUpdate;
 		
-		try {
-			usuarioUpdate = buscarUsuarioID(id);
-		}catch(Exception e) {
-			throw new ObjectNotFoundException("Usuario não encontrado", e);
-		}
+		usuarioUpdate = findById(id);
+	
 
 		if(usuario.getSenha() != null){
 			Login login = loginService.buscarLoginId(id);

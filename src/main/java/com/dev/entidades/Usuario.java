@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 
 import com.dev.entidades.enums.TipoUsuario;
 
@@ -28,16 +29,22 @@ public class Usuario implements Serializable{
 	private Integer id;
 	
 	@Column
+	@NotNull
 	private String cpf;
+	@NotNull
 	private String nome;
 	private Long telefone;
 	
 	@Column
+	@NotNull
 	private String email;
 	private Date dataNascimento;
+	@NotNull
 	private Integer tipoUsuario;
+	@NotNull
 	private String senha;
 	private String endereco;
+	@NotNull
 	private Boolean status;
 	
 	@OneToOne(cascade = CascadeType.MERGE)

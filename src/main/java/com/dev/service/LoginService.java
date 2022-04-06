@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import com.dev.entidades.Login;
 import com.dev.entidades.Usuario;
 import com.dev.repositorios.LoginRepository;
+import com.dev.service.exceptions.loginException.LoginInvalidException;
+import com.dev.service.exceptions.loginException.LoginNotFoundException;
+import com.dev.service.exceptions.loginException.SenhaInvalidException;
 import com.dev.utils.Criptografia;
 
 @Service
@@ -26,28 +29,28 @@ public class LoginService {
 		
 		List<Login> log = loginRepository.findAll();
 		
-		/*
-		 * if(log.get().getLogin().equals(login.getLogin())) {
-		 * if(log.get().getSenha().equals(login.getSenha())) { return log.get(); } }
-		 */
+		Login retorno = null;
 		
-		 for (Login itens : log) { 
-			 if(itens.getLogin().equals(login.getLogin())) {
-				 Boolean verificaSenha = Criptografia.verificarSenha(login.getSenha(), itens.getSenha());
-				 
-				 Login retorno = verificaSenha ? itens : null;
-				 
-				 return retorno;
-			 } 
-		 }
-		
-		return null;
+		for (Login itens : log) { 
+			if(itens.getLogin().equals(login.getLogin())) {
+				Boolean verificaSenha = Criptografia.verificarSenha(login.getSenha(), itens.getSenha());
+			 
+				if(verificaSenha) {
+					return retorno = itens;
+				}else {
+					throw new SenhaInvalidException();
+				}
+			}else {
+				throw new LoginInvalidException();
+			}
+		}
+		return retorno;
 	}
 	
 	public Login buscarLoginId(Integer id) {
 		Optional<Login> login = loginRepository.findById(id);
 		
-		return login.get();	
+		return login.orElseThrow(() -> new LoginNotFoundException());	
 	}
 	
 	public Login update(Login login, String senha, String email) {

@@ -20,14 +20,10 @@ public class LoginResource {
 	LoginService loginService;
 	
 	
-	@PostMapping
+	@PostMapping(value = "/findLogin")
 	public ResponseEntity<Login> buscarLogin(@RequestBody Login obj){
 		
 		Login login = loginService.buscarLogin(obj);
-		
-		if(login == null) {
-			return ResponseEntity.badRequest().body(null);
-		}
 		
 		return ResponseEntity.ok().body(login);
 	}
