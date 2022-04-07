@@ -6,7 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dev.entidades.Imagens;
 import com.dev.entidades.Produto;
+import com.dev.repositorios.ImagensRepository;
 import com.dev.repositorios.ProdutoRepository;
 
 @Service
@@ -14,6 +16,9 @@ public class ProdutoService {
 	
 	@Autowired
 	private ProdutoRepository produtoRepository;
+	
+	@Autowired
+	private ImagensRepository imagensRepository;
 	
 	public List<Produto> buscarProdutos(){
 		return produtoRepository.findAll();
@@ -36,6 +41,19 @@ public class ProdutoService {
 	public Produto insert(Produto prod) {
 		produtoRepository.save(prod);
 		return prod;
+	}
+	
+	public Imagens insertImg(byte[] img, Integer id) {
+		
+		Imagens imagem = new Imagens();
+		imagem.setImage(img);
+		
+		Produto prod = new Produto();
+		prod.setId(id);
+		imagem.setProduto(prod);
+		
+		imagensRepository.save(imagem);
+		return imagem;
 	}
 	
 	public Produto update(Integer id, Produto prod) {

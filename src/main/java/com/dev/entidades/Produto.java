@@ -1,12 +1,17 @@
 package com.dev.entidades;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Produto implements Serializable{
@@ -16,15 +21,30 @@ public class Produto implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	
+	@NotNull
 	private String nome;
+	
+	@NotNull
+	@Lob
 	private String descricao;
+	
+	@NotNull
 	private Double preco;
+	
+	@NotNull
 	private Integer quantidade;
+	
+	@NotNull
 	private Boolean status;
+	
+	@OneToMany(mappedBy="produto")
+	private List<Imagens> images = new ArrayList<>();
 	
 	public Produto() {}
 	
-	public Produto(Integer id, String nome, String descricao, Double preco, Integer quantidade, Boolean status) {
+	public Produto(Integer id, String nome, String descricao, Double preco, 
+			Integer quantidade, Boolean status) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -80,6 +100,14 @@ public class Produto implements Serializable{
 
 	public void setStatus(Boolean status) {
 		this.status = status;
+	}
+
+	public List<Imagens> getImages() {
+		return images;
+	}
+
+	public void setImages(List<Imagens> images) {
+		this.images = images;
 	}
 
 	@Override
