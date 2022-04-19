@@ -19,6 +19,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.dev.entidades.Imagens;
 import com.dev.entidades.Produto;
 import com.dev.service.ProdutoService;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
 
 @CrossOrigin
 @RestController
@@ -49,6 +52,27 @@ public class ProdutoResource {
 		Imagens imagens = produtoService.insertImg(img.getBytes(), id);
 		
 		return ResponseEntity.ok().body(imagens);
+	}
+	
+	@PostMapping(value = "/postProdAndImgs")
+	public ResponseEntity<Produto> insertProds(@RequestParam(value="img") MultipartFile[] img, 
+			@RequestParam(value="prod") String prod) throws IOException{
+		
+		Produto produto = new Produto();
+		
+		try{
+            GsonBuilder builder = new GsonBuilder();
+            builder.setPrettyPrinting();
+            Gson gson = builder.create();
+            produto = gson.fromJson(prod, Produto.class);
+          
+        }catch(JsonIOException err){
+            System.out.println("Exception : "+err.toString());
+        }
+		
+		Produto prodSalvo = produtoService.insertProdAndImg(img, produto);
+		
+		return ResponseEntity.ok().body(prodSalvo);
 	}
 	
 	@PutMapping(value = "/putProd/{id}")

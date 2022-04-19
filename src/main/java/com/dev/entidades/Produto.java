@@ -13,6 +13,8 @@ import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Produto implements Serializable{
 
@@ -38,6 +40,7 @@ public class Produto implements Serializable{
 	@NotNull
 	private Boolean status;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="produto")
 	private List<Imagens> images = new ArrayList<>();
 	

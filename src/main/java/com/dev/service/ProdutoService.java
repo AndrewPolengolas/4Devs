@@ -1,15 +1,18 @@
 package com.dev.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.dev.entidades.Imagens;
 import com.dev.entidades.Produto;
 import com.dev.repositorios.ImagensRepository;
 import com.dev.repositorios.ProdutoRepository;
+import com.dev.service.exceptions.prodException.ErrorImageException;
 
 @Service
 public class ProdutoService {
@@ -45,15 +48,36 @@ public class ProdutoService {
 	
 	public Imagens insertImg(byte[] img, Integer id) {
 		
-		Imagens imagem = new Imagens();
+		
+		Imagens imagem = new Imagens(); 
+		
 		imagem.setImage(img);
+	  
+		Produto prod = new Produto(); 
 		
-		Produto prod = new Produto();
-		prod.setId(id);
+		prod.setId(id); 
+		
 		imagem.setProduto(prod);
+	 
 		
-		imagensRepository.save(imagem);
 		return imagem;
+	}
+	
+	public Produto insertProdAndImg(MultipartFile[] img, Produto prod) {
+
+		Produto prodSalvo = insert(prod);
+		
+		//Imagens imagem = new Imagens();
+		
+		for(int i = 0; i < img.length; i++) {
+			try {
+				imagensRepository.insertImage(img[i].getBytes(), prodSalvo.getId());
+			} catch (IOException e) {
+				throw new ErrorImageException();
+			}
+		}
+		
+		return prodSalvo;
 	}
 	
 	public Produto update(Integer id, Produto prod) {
