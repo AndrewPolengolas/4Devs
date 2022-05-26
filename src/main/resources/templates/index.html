@@ -51,9 +51,9 @@
 
         <div id="login-wrapper">
 
-          <a class="form-link hidden" id="go-back">< voltar</a>
+          <a class="form-link hidden" id="go-back">voltar</a>
 
-          <form id="form-login">
+          <form id="form-login" action="/login/findLogin" method="POST">
 
             <label id="label-login-email">DIGITE SEU EMAIL</label>
             <input class="input" id="input-login-email" type="text" placeholder="Email">
@@ -61,7 +61,7 @@
             <label id="label-login-senha">DIGITE SUA SENHA</label>
             <input class="input" id="input-login-senha" type="password" placeholder="Senha">
 
-            <input class="input-button" id="btn-login-avancar" type="button" value="avançar >">
+            <input class="input-button" id="login" type="submit" value="avançar">
 
           </form>
 
