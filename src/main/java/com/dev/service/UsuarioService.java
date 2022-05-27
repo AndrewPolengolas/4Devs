@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.dev.entidades.Login;
 import com.dev.entidades.Usuario;
+import com.dev.repositorios.UsuarioCustomReporitory;
 import com.dev.repositorios.UsuarioRepository;
 import com.dev.service.exceptions.userException.CampoExistenteException;
 import com.dev.service.exceptions.userException.InvalidCpfException;
@@ -20,6 +21,9 @@ public class UsuarioService {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	private UsuarioCustomReporitory usuarioCustomReporitory;
 
 	@Autowired
 	private LoginService loginService;
@@ -27,6 +31,13 @@ public class UsuarioService {
 	public List<Usuario> findAll() {
 
 		return usuarioRepository.findAll();
+	}
+	
+	public List<Usuario> buscarUsuario(Integer id) {
+
+		List<Usuario> usuarios = usuarioCustomReporitory.find(id, null);
+
+		return usuarios;
 	}
 
 	public Usuario findById(Integer id) {
